@@ -2,14 +2,14 @@ import java.io.*;
 import java.util.*;
 import java.nio.file.*;
 
-public class DataFilter {
+public class UtilSort {
     public static void main(String[] args) {
         List<String> stringData = new ArrayList<>();
         List<Double> floatData = new ArrayList<>();
         List<Integer> intData = new ArrayList<>();
 
         String outputPath = ".";
-        String filePrefix = "output";
+        String filePrefix = "";
         boolean showSummary = false;
         boolean calculateStats = false;
 
@@ -42,21 +42,21 @@ public class DataFilter {
                         }
                     }
                 } catch (FileNotFoundException e) {
-                    System.err.println("Error: " + e.getMessage());
+                    System.err.println("Ошибка: " + e.getMessage());
                 }
             }
         }
 
         try {
-            writeToFile(outputPath, filePrefix + "_string.txt", stringData);
-            writeToFile(outputPath, filePrefix + "_float.txt", floatData);
-            writeToFile(outputPath, filePrefix + "_int.txt", intData);
+            writeToFile(outputPath, filePrefix + "String.txt", stringData);
+            writeToFile(outputPath, filePrefix + "Float.txt", floatData);
+            writeToFile(outputPath, filePrefix + "Int.txt", intData);
 
             if (showSummary) {
-                System.out.println("======КРАТКАЯ СТАТИСТИКА======");
+                System.out.println("======КРАТКАЯ СТАТИСТИКА ДЛЯ СТРОК И ЧИСЕЛ======");
                 System.out.println("String: " + stringData.size());
                 System.out.println("Float: " + floatData.size());
-                System.out.println("Integer: " + intData.size());
+                System.out.println("Int: " + intData.size());
             }
 
             if (calculateStats) {
@@ -67,7 +67,7 @@ public class DataFilter {
                     displayStats(floatData, "Float");
                 }
                 if (!intData.isEmpty()) {
-                    displayStats(intData, "Integer");
+                    displayStats(intData, "Int");
                 }
             }
 
@@ -105,10 +105,10 @@ public class DataFilter {
                 longest = length;
             }
         }
-        System.out.println("======ПОЛНАЯ СТАТИСТИКА STRING======");
+        System.out.println("======ПОЛНАЯ СТАТИСТИКА ДЛЯ СТРОК======");
         System.out.println("Самая короткая строка: " + shortest);
         System.out.println("Самая длинная строка: " + longest);
-        System.out.println("======ПОЛНАЯ СТАТИСТИКА FLOAT AND INTEGER======");
+        System.out.println("======ПОЛНАЯ СТАТИСТИКА ДЛЯ ЧИСЕЛ======");
     }
 
     private static void displayStats(List<? extends Number> data, String dataType) {
