@@ -4,40 +4,40 @@ import java.nio.file.*;
 
 public class UtilSort {
     public static void main(String[] args) {
-        List<String> stringData = new ArrayList<>();
-        List<Double> floatData = new ArrayList<>();
-        List<Integer> intData = new ArrayList<>();
+        List<String> StringData = new ArrayList<>();
+        List<Double> FloatData = new ArrayList<>();
+        List<Integer> IntData = new ArrayList<>();
 
-        String outputPath = ".";
-        String filePrefix = "";
-        boolean showSummary = false;
-        boolean calculateStats = false;
+        String OutputPath = "";
+        String FilePrefix = "";
+        boolean BriefStat = false;
+        boolean FullStat = false;
 
         for (int i = 0; i < args.length; i++) {
             if ("-o".equals(args[i])) {
-                outputPath = args[i + 1];
+                OutputPath = args[i + 1];
                 i++;
             } else if ("-p".equals(args[i])) {
-                filePrefix = args[i + 1];
+                FilePrefix = args[i + 1];
                 i++;
             } else if ("-s".equals(args[i])) {
-                showSummary = true;
+                BriefStat = true;
             } else if ("-f".equals(args[i])) {
-                calculateStats = true;
+                FullStat = true;
             } else {
                 try (Scanner scanner = new Scanner(new File(args[i]))) {
                     while (scanner.hasNext()) {
                         if (scanner.hasNextInt()) {
-                            intData.add(scanner.nextInt());
+                            IntData.add(scanner.nextInt());
                         } else if (scanner.hasNextDouble()) {
-                            floatData.add(scanner.nextDouble());
+                            FloatData.add(scanner.nextDouble());
                         } else {
                             String data = scanner.next();
                             try {
                                 Double.parseDouble(data);
-                                floatData.add(Double.parseDouble(data));
+                                FloatData.add(Double.parseDouble(data));
                             } catch (NumberFormatException e) {
-                                stringData.add(data);
+                                StringData.add(data);
                             }
                         }
                     }
@@ -48,26 +48,26 @@ public class UtilSort {
         }
 
         try {
-            writeToFile(outputPath, filePrefix + "String.txt", stringData);
-            writeToFile(outputPath, filePrefix + "Float.txt", floatData);
-            writeToFile(outputPath, filePrefix + "Int.txt", intData);
+            writeToFile(OutputPath, FilePrefix + "String.txt", StringData);
+            writeToFile(OutputPath, FilePrefix + "Float.txt", FloatData);
+            writeToFile(OutputPath, FilePrefix + "Int.txt", IntData);
 
-            if (showSummary) {
+            if (BriefStat) {
                 System.out.println("======КРАТКАЯ СТАТИСТИКА ДЛЯ СТРОК И ЧИСЕЛ======");
-                System.out.println("String: " + stringData.size());
-                System.out.println("Float: " + floatData.size());
-                System.out.println("Int: " + intData.size());
+                System.out.println("String: " + StringData.size());
+                System.out.println("Float: " + FloatData.size());
+                System.out.println("Int: " + IntData.size());
             }
 
-            if (calculateStats) {
-                if (!stringData.isEmpty()) {
-                    displayStringStats(stringData);
+            if (FullStat) {
+                if (!StringData.isEmpty()) {
+                    displayStringStats(StringData);
                 }
-                if (!floatData.isEmpty()) {
-                    displayStats(floatData, "Float");
+                if (!FloatData.isEmpty()) {
+                    DisplayStats(FloatData, "Float");
                 }
-                if (!intData.isEmpty()) {
-                    displayStats(intData, "Int");
+                if (!IntData.isEmpty()) {
+                    DisplayStats(IntData, "Int");
                 }
             }
 
@@ -76,10 +76,10 @@ public class UtilSort {
         }
     }
 
-    private static void writeToFile(String outputPath, String filename, List<?> data) throws IOException {
+    private static void writeToFile(String OutputPath, String FileName, List<?> data) throws IOException {
         if (!data.isEmpty()) {
-            Path filePath = Paths.get(outputPath, filename);
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
+            Path FilePath = Paths.get(OutputPath, FileName);
+            try (BufferedWriter writer = Files.newBufferedWriter(FilePath)) {
                 for (Object item : data) {
                     writer.write(item.toString());
                     writer.newLine();
@@ -111,7 +111,7 @@ public class UtilSort {
         System.out.println("======ПОЛНАЯ СТАТИСТИКА ДЛЯ ЧИСЕЛ======");
     }
 
-    private static void displayStats(List<? extends Number> data, String dataType) {
+    private static void DisplayStats(List<? extends Number> data, String dataType) {
         if (data.isEmpty()) {
             System.out.println(dataType + " отсутствуют.");
             return;
